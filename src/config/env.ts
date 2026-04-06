@@ -16,6 +16,7 @@ const EnvSchema = z.object({
   PAYSTACK_SECRET_KEY: z.string().optional(),
   PAYSTACK_PUBLIC_KEY: z.string().optional(),
   PAYSTACK_BASE_URL: z.string().default('https://api.paystack.co').optional(),
+  PAYSTACK_CALLBACK_URL: z.string().optional(),
   FRONTEND_BASE_URL: z.string().optional(),
 });
 

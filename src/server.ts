@@ -8,6 +8,7 @@ import { ensureMigrations } from './db/migrate.js';
 import cookieParser from 'cookie-parser';
 import { env } from './config/env.js';
 import { errorHandler, notFound } from './middlewares/error.js';
+import routes from './modules/routes.js';
 
 const helmet = (helmetPkg as any).default ?? (helmetPkg as any);
 
@@ -25,6 +26,7 @@ app.get('/health', (_req: Request, res: Response) => {
 });
 
 // app.use('/v1', v1);
+app.use('/api/v1', routes);
 
 app.use(notFound);
 app.use(errorHandler);
