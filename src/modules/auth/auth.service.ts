@@ -48,7 +48,7 @@ export class AuthService {
       return { verified: false, user_id: user.id };
     }
 
-    const token = signToken({ sub: user.id, email: user.email });
+    const token = signToken({ sub: user.id, email: user.email, role: user.role });
     const { password_hash, ...userWithoutPassword } = user;
     return { verified: true, token, user: userWithoutPassword };
   }

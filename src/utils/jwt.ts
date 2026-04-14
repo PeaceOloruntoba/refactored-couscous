@@ -1,7 +1,7 @@
 import jwt, { Secret } from 'jsonwebtoken';
 import { env } from '../config/env.js';
 
-export type JwtPayload = { sub: string; email: string; tv?: number };
+export type JwtPayload = { sub: string; email: string; tv?: number, role?: string };
 
 export function signToken(payload: JwtPayload, expiresIn: string | number = '24h') {
   if (!env.JWT_SECRET) throw new Error('JWT_SECRET not set in environment');
