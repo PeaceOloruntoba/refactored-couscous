@@ -1,13 +1,11 @@
 import "dotenv/config";
 // import { query } from "./pool.js";
 import { logger } from "../config/logger.js";
+// import bcrypt from "bcryptjs";
 
 async function main() {
   logger.info("Starting seed...");
-
-  // Seed...
-
-  logger.info({ count: 0 }, "Seeded data");
+  // Clear existing data
 
   logger.info("Seed complete");
 }

@@ -1,5 +1,5 @@
 {
-  "name": "refactored-couscous",
+  "name": "refactored-couscous-api",
   "version": "1.0.0",
   "description": "campus transit",
   "homepage": "https://github.com/PeaceOloruntoba/refactored-couscous#readme",
@@ -15,6 +15,12 @@
   "type": "module",
   "main": "src/server.ts",
   "scripts": {
+    "dev": "nodemon --config nodemon.json",
+    "build": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "migrate": "tsx src/db/runMigrate.ts",
+    "seed": "tsx src/db/seed.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
