@@ -12,6 +12,13 @@ export class BookingService {
     const user = await AuthRepo.findById(userId);
     if (!user) throw new Error('User not found');
 
+    // Check seat availability
+    const bookedSeats = await BookingRepo.findBookedSeats(route_id, departure_time, booking_date);
+    const unavailable = seats.filter((s: number) => bookedSeats.includes(s));
+    if (unavailable.length > 0) {
+      throw new Error(`Seats ${unavailable.join(', ')} are already booked`);
+    }
+
     const totalFare = route.fare * seats.length;
     const reference = `BK-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
@@ -40,6 +47,10 @@ export class BookingService {
     );
 
     return { booking, payment: paymentInit };
+  }
+
+  static async getBookedSeats(route_id: string, departure_time: string, booking_date: string) {
+    return await BookingRepo.findBookedSeats(route_id, departure_time, booking_date);
   }
 
   static async verifyPayment(reference: string) {

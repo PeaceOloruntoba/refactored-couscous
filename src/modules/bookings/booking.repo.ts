@@ -21,6 +21,16 @@ export class BookingRepo {
     await query('UPDATE bookings SET payment_status = $1, updated_at = NOW() WHERE id = $2', [status, id]);
   }
 
+  static async findBookedSeats(route_id: string, departure_time: string, booking_date: string) {
+    const { rows } = await query(
+      `SELECT seats FROM bookings 
+       WHERE route_id = $1 AND departure_time = $2 AND booking_date = $3 AND status != 'cancelled' AND payment_status != 'failed'`,
+      [route_id, departure_time, booking_date]
+    );
+    // Flatten the array of arrays
+    return rows.reduce((acc, row) => [...acc, ...row.seats], []);
+  }
+
   static async getUserBookings(userId: string) {
     const { rows } = await query(`
       SELECT b.*, r.origin, r.destination

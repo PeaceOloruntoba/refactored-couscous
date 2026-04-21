@@ -12,6 +12,10 @@ router.route('/')
   .get(BookingController.myBookings)
   .all(methodNotAllowed);
 
+router.route('/seats')
+  .get(BookingController.getBookedSeats)
+  .all(methodNotAllowed);
+
 router.route('/verify/:reference')
   .get(BookingController.verifyPayment)
   .all(methodNotAllowed);
