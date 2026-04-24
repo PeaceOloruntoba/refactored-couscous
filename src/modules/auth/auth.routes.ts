@@ -12,6 +12,7 @@ const dbOtpLimiter = dbRateLimit({ keyPrefix: 'otp', windowMs: 10 * 60 * 1000, l
 router.route('/signup').post(dbAuthLimiter, AuthController.signup).all(methodNotAllowed);
 router.route('/login').post(dbAuthLimiter, authLimiter, AuthController.login).all(methodNotAllowed);
 router.route('/verify-otp').post(dbOtpLimiter, otpLimiter, AuthController.verifyOTP).all(methodNotAllowed);
+router.route('/resend-otp').post(dbOtpLimiter, otpLimiter, AuthController.resendOTP).all(methodNotAllowed);
 router.route('/forgot-password').post(dbOtpLimiter, AuthController.forgotPassword).all(methodNotAllowed);
 router.route('/reset-password').post(dbOtpLimiter, AuthController.resetPassword).all(methodNotAllowed);
 

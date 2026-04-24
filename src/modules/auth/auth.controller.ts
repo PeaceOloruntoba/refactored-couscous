@@ -33,6 +33,15 @@ export class AuthController {
     }
   }
 
+  static async resendOTP(req: Request, res: Response) {
+    try {
+      await AuthService.resendOTP(req.body.user_id);
+      return successResponse(res, 'New OTP sent to your email');
+    } catch (err: any) {
+      return errorResponse(res, 400, err.message);
+    }
+  }
+
   static async forgotPassword(req: Request, res: Response) {
     try {
       const result = await AuthService.forgotPassword(req.body.email);

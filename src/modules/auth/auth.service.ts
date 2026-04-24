@@ -53,6 +53,16 @@ export class AuthService {
     return { verified: true, token, user: userWithoutPassword };
   }
 
+  static async resendOTP(userId: string) {
+    const user = await AuthRepo.findById(userId);
+    if (!user) throw new Error('User not found');
+
+    const otp = generateOtp(4);
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    await AuthRepo.createOTP(user.id, otp, expiresAt);
+    await sendOtpEmail(user.email, otp);
+  }
+
   static async verifyOTP(data: any) {
     const { user_id, code } = data;
     const validOTP = await AuthRepo.findValidOTP(user_id, code);
