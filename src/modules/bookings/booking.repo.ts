@@ -2,12 +2,12 @@ import { query } from "../../db/pool.js";
 
 export class BookingRepo {
   static async create(data: any) {
-    const { user_id, route_id, departure_time, booking_date, seats, total_fare, reference } = data;
+    const { user_id, route_id, departure_time, booking_date, seats, total_fare, reference, expires_at } = data;
     const { rows } = await query(
-      `INSERT INTO bookings (user_id, route_id, departure_time, booking_date, seats, total_fare, payment_reference, payment_status)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, 'pending')
+      `INSERT INTO bookings (user_id, route_id, departure_time, booking_date, seats, total_fare, payment_reference, payment_status, expires_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, 'pending', $8)
        RETURNING *`,
-      [user_id, route_id, departure_time, booking_date, seats, total_fare, reference]
+      [user_id, route_id, departure_time, booking_date, seats, total_fare, reference, expires_at]
     );
     return rows[0];
   }
@@ -24,7 +24,10 @@ export class BookingRepo {
   static async findBookedSeats(route_id: string, departure_time: string, booking_date: string) {
     const { rows } = await query(
       `SELECT seats FROM bookings 
-       WHERE route_id = $1 AND departure_time = $2 AND booking_date = $3 AND status != 'cancelled' AND payment_status != 'failed'`,
+       WHERE route_id = $1 AND departure_time = $2 AND booking_date = $3 
+       AND status != 'cancelled' 
+       AND (payment_status != 'pending' OR expires_at > NOW()) 
+       AND payment_status != 'failed'`,
       [route_id, departure_time, booking_date]
     );
     // Flatten the array of arrays

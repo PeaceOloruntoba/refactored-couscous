@@ -5,15 +5,13 @@ import { methodNotAllowed } from '../../middlewares/methodNotAllowed.js';
 
 const router = Router();
 
-router.use(authGuard);
-
 router.route('/')
-  .post(BookingController.create)
-  .get(BookingController.myBookings)
+  .post(authGuard, BookingController.create)
+  .get(authGuard, BookingController.myBookings)
   .all(methodNotAllowed);
 
 router.route('/seats')
-  .get(BookingController.getBookedSeats)
+  .get(authGuard, BookingController.getBookedSeats)
   .all(methodNotAllowed);
 
 router.route('/verify/:reference')

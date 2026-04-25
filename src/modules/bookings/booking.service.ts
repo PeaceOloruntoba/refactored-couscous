@@ -21,6 +21,7 @@ export class BookingService {
 
     const totalFare = route.fare * seats.length;
     const reference = `BK-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
 
     const booking = await BookingRepo.create({
       user_id: userId,
@@ -29,7 +30,8 @@ export class BookingService {
       booking_date,
       seats,
       total_fare: totalFare,
-      reference
+      reference,
+      expires_at: expiresAt,
     });
 
     await PaymentRepo.create({
