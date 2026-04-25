@@ -11,13 +11,13 @@ export class DashboardRepo {
     const activeBookings = await query(`
       SELECT COUNT(*) as value 
       FROM bookings 
-      WHERE status = 'confirmed' AND deleted_at IS NULL
+      WHERE status = 'confirmed' AND payment_status = 'paid' AND deleted_at IS NULL
     `);
 
-    const tripsCompleted = await query(`
+    const pendingPayments = await query(`
       SELECT COUNT(*) as value 
       FROM bookings 
-      WHERE status = 'used' AND deleted_at IS NULL
+      WHERE payment_status = 'pending' AND deleted_at IS NULL
     `);
 
     const routesOperating = await query(`
@@ -29,7 +29,7 @@ export class DashboardRepo {
     return {
       totalRevenue: parseFloat(totalRevenue.rows[0].value || '0'),
       activeBookings: parseInt(activeBookings.rows[0].value || '0'),
-      tripsCompleted: parseInt(tripsCompleted.rows[0].value || '0'),
+      pendingPayments: parseInt(pendingPayments.rows[0].value || '0'),
       routesOperating: parseInt(routesOperating.rows[0].value || '0'),
     };
   }
