@@ -13,8 +13,9 @@ export const authGuard = (req: Request, res: Response, next: NextFunction) => {
     const decoded = verifyToken(token);
     (req as any).user = decoded;
     next();
-  } catch (err) {
-    return errorResponse(res, 401, 'Unauthorized: Invalid token');
+  } catch (err: any) {
+    console.error('JWT Verification Error:', err.message);
+    return errorResponse(res, 401, `Unauthorized: Invalid token - ${err.message}`);
   }
 };
 

@@ -7,8 +7,10 @@ export class BookingController {
     try {
       const userId = (req as any).user.sub;
       const result = await BookingService.createBooking(userId, req.body);
+      console.log("Result ", result)
       return successResponse(res, 'Booking created successfully', result);
     } catch (err: any) {
+      console.log("Error: ", err)
       return errorResponse(res, 400, err.message);
     }
   }

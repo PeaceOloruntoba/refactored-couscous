@@ -55,6 +55,7 @@ export class PaymentRepo {
        RETURNING *`,
       [booking_id, user_id, amount, reference]
     );
+    console.log("Payment Row: ", rows[0])
     return rows[0];
   }
 

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { env } from '../config/env.js';
+import { OK } from 'zod';
 
 export class PaystackService {
   private static readonly SECRET_KEY = env.PAYSTACK_SECRET_KEY;
@@ -24,6 +25,7 @@ export class PaystackService {
       },
       { headers: this.getHeaders() }
     );
+    console.log("OK")
     return response.data.data;
   }
 

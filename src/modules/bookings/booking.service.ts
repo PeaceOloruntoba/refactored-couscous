@@ -9,6 +9,7 @@ export class BookingService {
     const route = await RouteRepo.findById(route_id);
     if (!route) throw new Error('Route not found');
 
+    
     const user = await AuthRepo.findById(userId);
     if (!user) throw new Error('User not found');
 
@@ -22,6 +23,7 @@ export class BookingService {
     const totalFare = route.fare * seats.length;
     const reference = `BK-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
     const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
+    console.log("Validated")
 
     const booking = await BookingRepo.create({
       user_id: userId,
